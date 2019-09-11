@@ -2,11 +2,9 @@ package com.example.su;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,16 +24,19 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 if(signInWithGoogle()){
-                    //Move to the next Activity
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
                 else{
-                    displaySignInFailedSnackbar();
+                    //After backend for signin is implemented, call displaySignInFailedSnackbar() and delete the other code
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
     }
 
-    //This method is called when the "sign in with Google" button is tapped. Add the authentication code here. Return false if sign in fails and a dialog will be shown saying that the sign in failed.
+    //TODO: Add backend code for Google sign in. Return true if sign in is successful and false if unsuccessful
     private boolean signInWithGoogle(){
         return false;
     }
