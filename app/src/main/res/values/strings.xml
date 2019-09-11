@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">SU</string>
+    <string name="app_name">Student Union</string>
     <string name="sign_in_failed">Sign in failed. Please try again.</string>
+    <string name="my_laundry">My laundry</string>
+    <string name="professor_availability">Professor availability</string>
+    <string name="action_settings">Settings</string>
+    <string name="signout">Sign out</string>
+    <string name="my_profile">My profile</string>
 </resources>
