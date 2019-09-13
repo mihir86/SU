@@ -51,7 +51,7 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 						loadFragment(new MyLaundryFragment(), "my_laundry");
 						return true;
 					case R.id.professor_availability:
-						loadFragment(new ProfessorAvailability(), "professor_availability");
+						loadFragment(new ProfessorAvailabilityFragment(), "professor_availability");
 						return true;
 					case R.id.my_profile:
 						loadFragment(new MyProfileFragment(), "my_profile");
