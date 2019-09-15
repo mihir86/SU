@@ -14,7 +14,7 @@
 
     <ImageView
         android:id="@+id/SUImageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
@@ -22,8 +22,8 @@
         android:layout_marginBottom="32dp"
         android:src="@mipmap/su_logo"
         app:layout_constraintBottom_toTopOf="@id/google_sign_in_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/google_sign_in_button"
+        app:layout_constraintStart_toStartOf="@+id/google_sign_in_button"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.gms.common.SignInButton

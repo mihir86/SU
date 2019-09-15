@@ -3,7 +3,9 @@ package com.example.su;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +33,15 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     private final static int RC_SIGN_IN = 2;
     GoogleSignInClient mGoogleSignInClient;
-    FirebaseAuth.AuthStateListener mAuthListner;
 
     @Override
     protected void onStart() {
-        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account!=null) {
+            startActivity(new Intent(SignInActivity.this,MainActivity.class));
+        }
 
-        mAuth.addAuthStateListener(mAuthListner);
+        super.onStart();
     }
 
     @Override
@@ -46,18 +50,8 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         mAuth = FirebaseAuth.getInstance();
 
-        mAuthListner = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(SignInActivity.this,MainActivity.class));
-                }
-
-            }
-        };
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.auth_id))
                 .requestEmail()
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
@@ -68,7 +62,7 @@ public class SignInActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-               signIn();
+                signIn();
             }
         });
     }
@@ -88,9 +82,20 @@ public class SignInActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
+                if(checkBITSEmailAndStoreDetails(account.getEmail()))
+                {
+                    startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                }
+                else
+                {
+                    mGoogleSignInClient.revokeAccess();
+                    Snackbar.make(findViewById(R.id.sign_in_layout), "Use your BITS email address to log in.", Snackbar.LENGTH_LONG).show();
+                }
+            }
+            catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(SignInActivity.this,"Auth went wrong",Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                Toast.makeText(SignInActivity.this,"There was an error processing you request. Please try again later.",Toast.LENGTH_SHORT).show();
                 // ...
             }
         }
@@ -102,18 +107,34 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithCredential:failure", task.getException());
+                        if (!task.isSuccessful())
+                        {
                             Snackbar.make(findViewById(R.id.sign_in_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
+    }
+
+    private boolean checkBITSEmailAndStoreDetails(String email)
+    {
+        if(email.endsWith("@hyderabad.bits-pilani.ac.in")){
+            if(email.startsWith("f20"))
+            {
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
+                editor.apply();
+            }
+            else
+            {
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
+                editor.apply();
+            }
+            return true;
+        }
+        else
+            return false;
     }
 }

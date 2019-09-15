@@ -7,4 +7,14 @@
     <string name="signout">Sign out</string>
     <string name="my_profile">My profile</string>
     <string name="no_laundry">You have no laundry orders</string>
+
+    <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
+    <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
+
+    <!--START: Shared pref values!-->
+    <string name="student_or_prof_key">student_or_prof</string>
+    <string name="student_value">student</string>
+    <string name="prof_value">prof</string>
+    <!--END: Shared pref values!-->
+
 </resources>
