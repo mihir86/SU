@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,10 +36,19 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.fragment_frame, new MyLaundryFragment(), "my_laundry")
-				.commit();
+		if(isStudent())
+		{
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.fragment_frame, new MyLaundryFragment(), "my_laundry")
+					.commit();
+		}
+		else{
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.fragment_frame, new UpdateAvailabilityFragment(), "update_availability")
+					.commit();
+		}
 
 		navBar = findViewById(R.id.bottom_nav_bar);
 		setSupportActionBar(navBar);
@@ -85,5 +96,15 @@ public class MainActivity extends AppCompatActivity {
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean isStudent()
+	{
+		SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
+		String studentOrProfessor = sharedPref.getString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
+		if(studentOrProfessor.equals(getString(R.string.student_value)))
+			return true;
+		else
+			return false;
 	}
 }

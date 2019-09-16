@@ -14,16 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.su.Adapters.ProfessorAdapter;
 import com.example.su.Items.Professor;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +31,7 @@ import java.util.ArrayList;
 public class ProfessorAvailabilityFragment extends Fragment {
 	public ProfessorAvailabilityFragment() {}
 	private RecyclerView recyclerView;
+	private ProgressBar progressBar;
 	private DatabaseReference profref;
 	ArrayList<Professor> professors;
 	ProfessorAdapter adapter;
@@ -46,14 +42,13 @@ public class ProfessorAvailabilityFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_professor_availability, container, false);
 
 		recyclerView = rootView.findViewById(R.id.professor_availability_recycler_view);
+		progressBar = rootView.findViewById(R.id.progress_circular_professor_availability);
 		profref = FirebaseDatabase.getInstance().getReference().child("Professors");
 
-		professors = new ArrayList<Professor>();
-		//TODO: get professor details and store them in professors and add a progress bar during the network call for professors
+		professors = new ArrayList<>();
 		profref.keepSynced(true);
-		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
+		setLoadingView();
 
 		profref.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -62,7 +57,9 @@ public class ProfessorAvailabilityFragment extends Fragment {
 					Professor professor = dataSnapshot1.getValue(Professor.class);
 					professors.add(professor);
 				}
+				setRecyclerView();
 				adapter = new ProfessorAdapter(professors);
+				recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 				recyclerView.setAdapter(adapter);
 			}
 
@@ -71,9 +68,19 @@ public class ProfessorAvailabilityFragment extends Fragment {
 				Toast.makeText(getContext(),"Something went wrong!",Toast.LENGTH_SHORT).show();
 			}
 		});
-
-
-
 		return rootView;
 	}
+
+	private void setLoadingView()
+	{
+		recyclerView.setVisibility(View.INVISIBLE);
+		progressBar.setVisibility(View.VISIBLE);
+	}
+
+	private void setRecyclerView()
+	{
+		recyclerView.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.INVISIBLE);
+	}
+
 }
