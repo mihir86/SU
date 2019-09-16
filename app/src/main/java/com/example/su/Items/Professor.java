@@ -2,32 +2,49 @@ package com.example.su.Items;
 
 public class Professor {
 
-	private String professorName;
-	private String roomNumber;
-	private String courseCode;
-	private boolean available;
+	private String Name;
+	private String Department;
+	private String ChamberNumber;
+	private boolean Availability;
 
-	public Professor(String professorName, String roomNumber, String courseCode, boolean available)
-	{
-		this.professorName = professorName;
-		this.roomNumber = roomNumber;
-		this.courseCode = courseCode;
-		this.available = available;
+	public Professor(){}
+
+	public Professor(String name, String department, String chamberNumber,boolean availability) {
+		Name = name;
+		Department = department;
+		ChamberNumber = chamberNumber;
+		Availability = availability;
 	}
 
-	public String getProfessorName() {
-		return professorName;
+	public String getName() {
+		return Name;
 	}
 
-	public String getRoomNumber() {
-		return roomNumber;
+	public String getDepartment() {
+		return Department;
 	}
 
-	public String getCourseCode() {
-		return courseCode;
+	public String getChamberNumber() {
+		return ChamberNumber;
 	}
 
-	public boolean isAvailable() {
-		return available;
+	public boolean isAvailability() {
+		return Availability;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public void setDepartment(String department) {
+		Department = department;
+	}
+
+	public void setChamberNumber(String chamberNumber) {
+		ChamberNumber = chamberNumber;
+	}
+
+	public void setAvailability(boolean availability) {
+		Availability = availability;
 	}
 }

@@ -18,14 +18,13 @@ import java.util.ArrayList;
 
 public class ProfessorAdapter extends RecyclerView.Adapter<ProfessorAdapter.MyViewHolder> {
 
-	private ArrayList<Professor> mDataset;
+	ArrayList<Professor> mDataset;
 
-	public ProfessorAdapter(ArrayList<Professor> professors)
-	{
-		mDataset = professors;
+	public ProfessorAdapter(ArrayList<Professor> mDataset) {
+		this.mDataset = mDataset;
 	}
 
-	public class MyViewHolder extends RecyclerView.ViewHolder {
+	public static class MyViewHolder extends RecyclerView.ViewHolder {
 		public TextView professorNameTextView;
 		public TextView professorRoomTextView;
 		public TextView professorCourseTextView;
@@ -59,10 +58,10 @@ public class ProfessorAdapter extends RecyclerView.Adapter<ProfessorAdapter.MyVi
 		TextView professorCourseTextView = holder.professorCourseTextView;
 		ImageView professorAvailable = holder.professorAvailable;
 
-		professorNameTextView.setText(professor.getProfessorName());
-		professorRoomTextView.setText(professor.getRoomNumber());
-		professorCourseTextView.setText(professor.getCourseCode());
-		if(professor.isAvailable())
+		professorNameTextView.setText(professor.getName());
+		professorRoomTextView.setText(professor.getChamberNumber());
+		professorCourseTextView.setText(professor.getDepartment());
+		if(professor.isAvailability())
 			professorAvailable.setImageResource(R.drawable.round_event_available_24);
 	}
 
