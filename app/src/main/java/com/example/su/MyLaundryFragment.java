@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.su.Adapters.LaundryAdapter;
 import com.example.su.Items.LaundryOrder;
@@ -26,6 +27,9 @@ public class MyLaundryFragment extends Fragment {
 
 	private RecyclerView recyclerView;
 	private ConstraintLayout emptyView;
+	private ProgressBar progressBar;
+
+	private ArrayList<LaundryOrder> laundryOrders;
 
 	@Nullable
 	@Override
@@ -35,9 +39,14 @@ public class MyLaundryFragment extends Fragment {
 
 		recyclerView = rootView.findViewById(R.id.my_laundry_recycler_view);
 		emptyView = rootView.findViewById(R.id.laundry_empty_view);
+		progressBar = rootView.findViewById(R.id.progress_circular_laundry_orders);
 
-		ArrayList<LaundryOrder> laundryOrders = new ArrayList<>();
-		//TODO: get the data of laundry orders and store it in laundryOrders and add a progress bar during the network call
+		setLoadingView();
+
+		laundryOrders = new ArrayList<>();
+		laundryOrders.add(new LaundryOrder("Sept 16, 2019", 45, false));
+		laundryOrders.add(new LaundryOrder("Sept 14, 2019", 65, true));
+		//TODO: get the data of laundry orders and store it in laundryOrders
 
 		if(laundryOrders.isEmpty())
 		{
@@ -58,12 +67,21 @@ public class MyLaundryFragment extends Fragment {
 	{
 		recyclerView.setVisibility(View.VISIBLE);
 		emptyView.setVisibility(View.INVISIBLE);
+		progressBar.setVisibility(View.INVISIBLE);
 	}
 
 	private void setEmptyView()
 	{
 		recyclerView.setVisibility(View.INVISIBLE);
 		emptyView.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.INVISIBLE);
+	}
+
+	private void setLoadingView()
+	{
+		recyclerView.setVisibility(View.INVISIBLE);
+		emptyView.setVisibility(View.INVISIBLE);
+		progressBar.setVisibility(View.VISIBLE);
 	}
 
 }

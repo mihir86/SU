@@ -29,7 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ProfessorAvailabilityFragment extends Fragment {
+
 	public ProfessorAvailabilityFragment() {}
+
 	private RecyclerView recyclerView;
 	private ProgressBar progressBar;
 	private DatabaseReference profref;
