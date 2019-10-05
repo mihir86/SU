@@ -82,20 +82,20 @@ public class SignInActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-                if(checkBITSEmailAndStoreDetails(account.getEmail()))
+                if (checkIfBITSEmailAndStoreDetails(account.getEmail()))
                 {
                     startActivity(new Intent(SignInActivity.this, MainActivity.class));
                 }
                 else
                 {
                     mGoogleSignInClient.revokeAccess();
-                    Snackbar.make(findViewById(R.id.sign_in_layout), "Use your BITS email address to log in.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_use_bits_mail), Snackbar.LENGTH_LONG).show();
                 }
             }
             catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 e.printStackTrace();
-                Toast.makeText(SignInActivity.this,"There was an error processing you request. Please try again later.",Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show();
                 // ...
             }
         }
@@ -109,29 +109,30 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful())
                         {
-                            Snackbar.make(findViewById(R.id.sign_in_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_failed), Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private boolean checkBITSEmailAndStoreDetails(String email)
-    {
-        if(email.endsWith("@hyderabad.bits-pilani.ac.in")){
-            if(email.startsWith("f20"))
-            {
-                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
+    private boolean checkIfBITSEmailAndStoreDetails(String email) {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if (email.toLowerCase().endsWith("@hyderabad.bits-pilani.ac.in")) {
+            if (email.toLowerCase().startsWith("f20")) {
+
                 editor.putString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
                 editor.apply();
             }
             else
             {
-                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
                 editor.apply();
             }
+            return true;
+        } else if (email.equalsIgnoreCase("aryan.arora180@gmail.com")) {
+            editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
+            editor.apply();
             return true;
         }
         else

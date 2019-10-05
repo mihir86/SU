@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Student Union</string>
+    <string name="sign_in_with_bits_email">Sign in with your BITS email address</string>
     <string name="sign_in_failed">Sign in failed. Please try again.</string>
+    <string name="sign_in_use_bits_mail">Use your BITS email address to log in.</string>
     <string name="my_laundry">My laundry</string>
     <string name="professor_availability">Professor availability</string>
     <string name="update_availability">Update availability</string>
