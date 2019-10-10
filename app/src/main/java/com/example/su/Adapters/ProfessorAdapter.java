@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.su.Items.LaundryOrder;
 import com.example.su.Items.Professor;
 import com.example.su.R;
 
@@ -68,6 +67,11 @@ public class ProfessorAdapter extends RecyclerView.Adapter<ProfessorAdapter.MyVi
 	@Override
 	public int getItemCount() {
 		return mDataset.size();
+	}
+
+	public void clear() {
+		mDataset.clear();
+		notifyDataSetChanged();
 	}
 
 }

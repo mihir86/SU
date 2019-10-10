@@ -72,4 +72,9 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.MyViewHo
 	public int getItemCount() {
 		return mDataset.size();
 	}
+
+	public void clear() {
+		mDataset.clear();
+		notifyDataSetChanged();
+	}
 }

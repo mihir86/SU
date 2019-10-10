@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.su.Adapters.ProfessorAdapter;
 import com.example.su.Items.Professor;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 public class ProfessorAvailabilityFragment extends Fragment {
 
 	public ProfessorAvailabilityFragment() {}
+
+    private SwipeRefreshLayout swipeContainer;
 
 	private RecyclerView recyclerView;
 	private ProgressBar progressBar;
@@ -42,32 +45,46 @@ public class ProfessorAvailabilityFragment extends Fragment {
 		progressBar = rootView.findViewById(R.id.progress_circular_professor_availability);
 
         setLoadingView();
+        setupRecyclerData();
 
-		profref = FirebaseDatabase.getInstance().getReference().child("Professors");
-
-		professors = new ArrayList<>();
-		profref.keepSynced(true);
-
-		profref.addListenerForSingleValueEvent(new ValueEventListener() {
+        swipeContainer = rootView.findViewById(R.id.professor_swipe_container);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-					Professor professor = dataSnapshot1.getValue(Professor.class);
-					professors.add(professor);
-				}
-				setRecyclerView();
-				adapter = new ProfessorAdapter(professors);
-				recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-				recyclerView.setAdapter(adapter);
-			}
-
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				Toast.makeText(getContext(),"Something went wrong!",Toast.LENGTH_SHORT).show();
+            public void onRefresh() {
+                adapter.clear();
+                setupRecyclerData();
+                swipeContainer.setRefreshing(false);
 			}
 		});
+
 		return rootView;
 	}
+
+    private void setupRecyclerData() {
+        profref = FirebaseDatabase.getInstance().getReference().child("Professors");
+
+        professors = new ArrayList<>();
+        profref.keepSynced(true);
+
+        profref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    Professor professor = dataSnapshot1.getValue(Professor.class);
+                    professors.add(professor);
+                }
+                setRecyclerView();
+                adapter = new ProfessorAdapter(professors);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 	private void setLoadingView()
 	{

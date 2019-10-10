@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.su.Adapters.LaundryAdapter;
 import com.example.su.Items.LaundryOrder;
@@ -32,6 +33,8 @@ public class MyLaundryFragment extends Fragment {
 	private ConstraintLayout emptyView;
 	private ProgressBar progressBar;
 
+	private SwipeRefreshLayout swipeContainer;
+
     LaundryAdapter adapter;
     private DatabaseReference laundryRef;
 
@@ -48,40 +51,51 @@ public class MyLaundryFragment extends Fragment {
 		progressBar = rootView.findViewById(R.id.progress_circular_laundry_orders);
 
 		setLoadingView();
+		setupRecyclerData();
 
-        laundryRef = FirebaseDatabase.getInstance().getReference().child("Laundry orders"); //TODO: Get room number from email and append .child(RoomNo)) to this line.
-
-		laundryOrders = new ArrayList<>();
-        laundryRef.keepSynced(true);
-
-		//TODO: get the data of laundry orders and store it in laundryOrders
-        laundryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    LaundryOrder laundryOrder = dataSnapshot1.getValue(LaundryOrder.class);
-                    laundryOrders.add(laundryOrder);
-                }
-
-                if (laundryOrders.isEmpty()) {
-                    setEmptyView();
-                } else {
-                    setRecyclerView();
-                    LaundryAdapter adapter = new LaundryAdapter(laundryOrders);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+		swipeContainer = rootView.findViewById(R.id.laundry_swipe_container);
+		swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				adapter.clear();
+				setupRecyclerData();
+				swipeContainer.setRefreshing(false);
+			}
+		});
 
 		return rootView;
+	}
+
+	private void setupRecyclerData() {
+		laundryRef = FirebaseDatabase.getInstance().getReference().child("Laundry orders"); //TODO: Get room number from email and append .child(RoomNo)) to this line.
+
+		laundryOrders = new ArrayList<>();
+		laundryRef.keepSynced(true);
+
+		//TODO: get the data of laundry orders and store it in laundryOrders
+		laundryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+					LaundryOrder laundryOrder = dataSnapshot1.getValue(LaundryOrder.class);
+					laundryOrders.add(laundryOrder);
+				}
+
+				if (laundryOrders.isEmpty()) {
+					setEmptyView();
+				} else {
+					setRecyclerView();
+					adapter = new LaundryAdapter(laundryOrders);
+					recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+					recyclerView.setAdapter(adapter);
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+				Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	private void setRecyclerView()
