@@ -1,8 +1,11 @@
 package com.example.su;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,13 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
 import com.example.su.Adapters.LaundryAdapter;
 import com.example.su.Items.LaundryOrder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,9 @@ public class MyLaundryFragment extends Fragment {
 	private RecyclerView recyclerView;
 	private ConstraintLayout emptyView;
 	private ProgressBar progressBar;
+
+    LaundryAdapter adapter;
+    private DatabaseReference laundryRef;
 
 	private ArrayList<LaundryOrder> laundryOrders;
 
@@ -43,22 +49,37 @@ public class MyLaundryFragment extends Fragment {
 
 		setLoadingView();
 
-		laundryOrders = new ArrayList<>();
-		laundryOrders.add(new LaundryOrder("Sept 16, 2019", 45, false));
-		laundryOrders.add(new LaundryOrder("Sept 14, 2019", 65, true));
-		//TODO: get the data of laundry orders and store it in laundryOrders
+        laundryRef = FirebaseDatabase.getInstance().getReference().child("Laundry orders"); //TODO: Get room number from email and append .child(RoomNo)) to this line.
 
-		if(laundryOrders.isEmpty())
-		{
-			setEmptyView();
-		}
-		else
-		{
-			setRecyclerView();
-			LaundryAdapter adapter = new LaundryAdapter(laundryOrders);
-			recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-			recyclerView.setAdapter(adapter);
-		}
+		laundryOrders = new ArrayList<>();
+        laundryRef.keepSynced(true);
+
+		//TODO: get the data of laundry orders and store it in laundryOrders
+        laundryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    LaundryOrder laundryOrder = dataSnapshot1.getValue(LaundryOrder.class);
+                    laundryOrders.add(laundryOrder);
+                }
+
+                if (laundryOrders.isEmpty()) {
+                    setEmptyView();
+                } else {
+                    setRecyclerView();
+                    LaundryAdapter adapter = new LaundryAdapter(laundryOrders);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 		return rootView;
 	}

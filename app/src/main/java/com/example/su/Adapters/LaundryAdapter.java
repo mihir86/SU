@@ -1,6 +1,7 @@
 package com.example.su.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,11 +54,18 @@ public class LaundryAdapter extends RecyclerView.Adapter<LaundryAdapter.MyViewHo
 		TextView givenDateTextView = holder.givenDateTextView;
 		TextView priceTextView = holder.priceTextView;
 		ImageView doneImageView = holder.doneImageView;
-		String priceToDisplay = "₹" + Double.toString(laundryOrder.getAmount());
-		givenDateTextView.setText(laundryOrder.getGivenDate());
+		String priceToDisplay = "₹" + laundryOrder.getAmount();
+		String givenDateToDisplay = "Given on " + laundryOrder.getGivenDate();
+		givenDateTextView.setText(givenDateToDisplay);
 		priceTextView.setText(priceToDisplay);
-		if(laundryOrder.isDone())
+
+		if (laundryOrder.isDone()) {
+			Log.e("Reached isDone value:", "true");
 			doneImageView.setImageResource(R.drawable.round_done_24);
+		} else {
+			Log.e("Reached isDone value:", "false");
+			doneImageView.setImageResource(R.drawable.not_done_24);
+		}
 	}
 
 	@Override

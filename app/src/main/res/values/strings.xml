@@ -12,6 +12,8 @@
     <string name="no_laundry">You have no laundry orders</string>
     <string name="in_room">In room</string>
     <string name="not_in_room">Not in room</string>
+    <string name="availability_marked_available">You\'ve been marked as available</string>
+    <string name="availability_marked_unavailable">You\'ve been marked as unavailable</string>
 
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>

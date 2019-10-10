@@ -1,21 +1,17 @@
 package com.example.su;
 
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.su.Adapters.ProfessorAdapter;
 import com.example.su.Items.Professor;
@@ -24,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.util.ArrayList;
 
@@ -45,12 +40,13 @@ public class ProfessorAvailabilityFragment extends Fragment {
 
 		recyclerView = rootView.findViewById(R.id.professor_availability_recycler_view);
 		progressBar = rootView.findViewById(R.id.progress_circular_professor_availability);
+
+        setLoadingView();
+
 		profref = FirebaseDatabase.getInstance().getReference().child("Professors");
 
 		professors = new ArrayList<>();
 		profref.keepSynced(true);
-
-		setLoadingView();
 
 		profref.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
