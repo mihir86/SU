@@ -3,6 +3,10 @@ package com.example.su;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,11 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
-
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 
@@ -77,6 +76,8 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 							return true;
 						case R.id.my_profile:
 							loadFragment(new MyProfileFragment(), "my_profile");
+						case R.id.airport_cab_sharing:
+							loadFragment(new CabSharingFragment(), "airport_cab_sharing");
 						default:
 							return false;
 					}
