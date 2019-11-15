@@ -7,5 +7,7 @@
     <color name="colorSecondaryVariant">#018786</color>
     <color name="colorOnSecondary">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="background">#121212</color>
+    <color name="backgroundSecondary">#1F1F1F</color>
 
 </resources>

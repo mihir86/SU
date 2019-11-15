@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MyProfileFragment extends Fragment {
 
 
@@ -22,7 +23,7 @@ public class MyProfileFragment extends Fragment {
 
     TextView nameTextView;
 	TextView emailTextView;
-	ImageView accountPicImageView;
+	CircleImageView accountPicImageView;
 
 
 	@Override

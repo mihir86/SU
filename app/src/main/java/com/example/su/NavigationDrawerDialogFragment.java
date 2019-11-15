@@ -26,10 +26,7 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
 		String studentOrProfessor = sharedPref.getString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
-		if(studentOrProfessor.equals(getString(R.string.student_value)))
-			return true;
-		else
-			return false;
+        return studentOrProfessor.equals(getString(R.string.student_value));
 	}
 
 	@Override
@@ -76,8 +73,10 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 							return true;
 						case R.id.my_profile:
 							loadFragment(new MyProfileFragment(), "my_profile");
+                            return true;
 						case R.id.airport_cab_sharing:
 							loadFragment(new CabSharingFragment(), "airport_cab_sharing");
+                            return true;
 						default:
 							return false;
 					}
@@ -99,6 +98,7 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 							return true;
 						case R.id.my_profile:
 							loadFragment(new MyProfileFragment(), "my_profile");
+                            return true;
 						default:
 							return false;
 					}
