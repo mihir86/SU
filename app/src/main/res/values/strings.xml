@@ -16,6 +16,20 @@
     <string name="availability_marked_available">You\'ve been marked as available</string>
     <string name="availability_marked_unavailable">You\'ve been marked as unavailable</string>
 
+    <string name="add_cab_sharing_request">Add airport cab sharing request</string>
+    <string name="campus_to_airport">Campus to Airport</string>
+    <string name="airport_to_campus">Airport to campus</string>
+    <string name="enter_date">Date of flight departure/arrival</string>
+    <string name="enter_time">Time of flight departure/arrival</string>
+    <string name="ddmmyy">dd/mm/yy</string>
+    <string name="hhmm">hh:mm</string>
+    <string name="hrs">hrs</string>
+    <string name="mins">mins</string>
+    <string name="colon">:</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+    <string name="add_request">Add request</string>
+    <string name="wait_time">Time you\'re willing to wait</string>
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
     <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>

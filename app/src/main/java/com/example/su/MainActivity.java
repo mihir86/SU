@@ -11,6 +11,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -18,15 +19,37 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationDrawerDialogFragment.NavigationDrawerSelected {
+
 	BottomAppBar navBar;
+    public static final String BOTTOM_ADD_CAB_SHARING_REUQEST_TAG = "bottom_add_cab_sharing_request";
+    FloatingActionButton fab;
+
 	NavigationDrawerDialogFragment bottomNavigationDrawerFragment;
 
+
 	public static final String BOTTOM_NAV_MENU_TAG = "bottom_nav_menu";
+    private Context mContext;
 
 	GoogleSignInClient mGoogleSignInClient;
 
+    @Override
+    public void onFragmentSelected(int fragmentType) {
+        if (fragmentType == NavigationDrawerDialogFragment.NO_FAB)
+            fab.hide();
+        else
+            fab.show();
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment instanceof NavigationDrawerDialogFragment) {
+            NavigationDrawerDialogFragment drawerDialogFragment = (NavigationDrawerDialogFragment) fragment;
+            drawerDialogFragment.setNavigationDrawerSelected(this);
+        }
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +69,19 @@ public class MainActivity extends AppCompatActivity {
 					.replace(R.id.fragment_frame, new UpdateAvailabilityFragment(), "update_availability")
 					.commit();
 		}
+
+        mContext = getApplicationContext();
+
+        fab = findViewById(R.id.fab);
+        fab.hide();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Display bottom sheet here
+                AddCabSharingBottomDialogFragment cabSharingBottomDialogFragment = new AddCabSharingBottomDialogFragment();
+                cabSharingBottomDialogFragment.show(getSupportFragmentManager(), BOTTOM_ADD_CAB_SHARING_REUQEST_TAG);
+            }
+        });
 
 		navBar = findViewById(R.id.bottom_nav_bar);
 		setSupportActionBar(navBar);

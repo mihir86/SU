@@ -13,9 +13,5 @@
         android:id="@+id/airport_cab_sharing"
         android:icon="@drawable/outline_flight_takeoff_24"
         android:title="@string/airport_cab_sharing" />
-
-    <item android:id="@+id/my_profile"
-        android:icon="@drawable/round_person_24"
-        android:title="@string/my_profile" />
 </group>
 </menu>

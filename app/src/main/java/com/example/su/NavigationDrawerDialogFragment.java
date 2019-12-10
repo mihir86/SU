@@ -2,11 +2,14 @@ package com.example.su;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +17,25 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 
-
 	private boolean isStudent;
 
+	public static final int NO_FAB = 1;
+	public static final int ADD_FAB = 2;
+
+	NavigationDrawerSelected callback;
+	TextView nameTextView;
+	TextView emailTextView;
 
 	private boolean checkIsStudent()
 	{
-
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.shared_pref_key), Context.MODE_PRIVATE);
 		String studentOrProfessor = sharedPref.getString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
         return studentOrProfessor.equals(getString(R.string.student_value));
@@ -53,13 +65,32 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 		}
 	}
 
+	CircleImageView accountPicImageView;
+
+	public void setNavigationDrawerSelected(NavigationDrawerSelected callback) {
+		this.callback = callback;
+	}
+
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		emailTextView = getView().findViewById(R.id.myProfileEmailTextView);
+		accountPicImageView = getView().findViewById(R.id.myProfileImageView);
+		nameTextView = getView().findViewById(R.id.myProfileNameTextView);
+
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		String name = user.getDisplayName();
+		String email = user.getEmail();
+		Uri photoUri = user.getPhotoUrl();
+		Log.i("Photo URL", photoUri.toString());
+
+		nameTextView.setText(name);
+		emailTextView.setText(email);
+		Picasso.get().load(photoUri).resize(64, 64).into(accountPicImageView);
+
 		NavigationView navigationView;
-		if(isStudent)
-		{
+		if(isStudent) {
 			navigationView = getView().findViewById(R.id.navigation_view_student);
 			navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 				@Override
@@ -67,24 +98,22 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 					switch (item.getItemId()) {
 						case R.id.my_laundry:
 							loadFragment(new MyLaundryFragment(), "my_laundry");
+							callback.onFragmentSelected(NO_FAB);
 							return true;
 						case R.id.professor_availability:
 							loadFragment(new ProfessorAvailabilityFragment(), "professor_availability");
+							callback.onFragmentSelected(NO_FAB);
 							return true;
-						case R.id.my_profile:
-							loadFragment(new MyProfileFragment(), "my_profile");
-                            return true;
 						case R.id.airport_cab_sharing:
 							loadFragment(new CabSharingFragment(), "airport_cab_sharing");
-                            return true;
+							callback.onFragmentSelected(ADD_FAB);
+							return true;
 						default:
 							return false;
 					}
 				}
 			});
-		}
-		else
-		{
+		} else {
 			navigationView = getView().findViewById(R.id.navigation_view_prof);
 			navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 				@Override
@@ -96,9 +125,6 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 						case R.id.update_prof_availability:
 							loadFragment(new UpdateAvailabilityFragment(), "update_availability");
 							return true;
-						case R.id.my_profile:
-							loadFragment(new MyProfileFragment(), "my_profile");
-                            return true;
 						default:
 							return false;
 					}
@@ -106,5 +132,9 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 			});
 		}
 
+	}
+
+	public interface NavigationDrawerSelected {
+		void onFragmentSelected(int fragmentType);
 	}
 }

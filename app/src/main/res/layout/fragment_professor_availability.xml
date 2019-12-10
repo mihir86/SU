@@ -46,6 +46,7 @@
         style="@style/AppTheme"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:indeterminateTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/professor_swipe_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
