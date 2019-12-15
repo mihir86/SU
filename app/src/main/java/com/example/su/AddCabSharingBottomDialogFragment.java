@@ -1,6 +1,7 @@
 package com.example.su;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +89,8 @@ public class AddCabSharingBottomDialogFragment extends BottomSheetDialogFragment
             public void onClick(View v) {
                 //TODO: Validate data and display errors (if any).
                 if (checkDataNotBlankAndDisplayError()) {
-                    if (checkDateCorrectAndDisplayError()) {
-                        //TODO: Data entered has no issues. Process it.
+                    if (checkDateCorrectAndDisplayError() && checkWaitTimeCorrectAndDisplayError()) {
+                        //TODO: The date entered has no issues. Process it here by calling getCabType(), getFlightDateAndTIme(), and getWaitTime().
                         dismiss();
                     }
                 }
@@ -97,6 +98,37 @@ public class AddCabSharingBottomDialogFragment extends BottomSheetDialogFragment
         });
 
         return rootView;
+    }
+
+    private int getCabType() {
+        if (cabTypeChipGroup.getCheckedChipId() == R.id.campus_to_airport_chip) {
+            return CAMPUS_TO_AIRPORT;
+        } else
+            return AIRPORT_TO_CAMPUS;
+    }
+
+    private Date getFlightDateAndTime() {
+        try {
+            DateFormat flightDateFormat = new SimpleDateFormat("dd/MM/yy hh:mm a");
+
+            String enteredFlightDateAndTime = dateeInputEditText.getText().toString() + " " + flightDateHoursEditText.getText().toString() + ":" + flightDateHoursEditText.getText().toString();
+            if (aopChipGroup.getCheckedChipId() == R.id.time_hours_am_chip)
+                enteredFlightDateAndTime += " AM";
+            else
+                enteredFlightDateAndTime += " PM";
+
+            return flightDateFormat.parse(enteredFlightDateAndTime);
+        } catch (ParseException e) {
+            Log.e("AddCabSharingFragment", "Date was validated earlier, but there's a parse exception. WARNING: Today\'s date has been returned by the getFlightDateAndTime() method");
+            Log.e("AddCabSharingFragment", e.getMessage());
+            return new Date();
+        }
+    }
+
+    private double getWaitTime() {
+        int hrs = Integer.parseInt(waitTimeHoursEditText.getText().toString());
+        int mins = Integer.parseInt(waitTimeMinsEditText.getText().toString());
+        return hrs + (mins / 60);
     }
 
     private boolean checkDataNotBlankAndDisplayError() {
@@ -135,6 +167,25 @@ public class AddCabSharingBottomDialogFragment extends BottomSheetDialogFragment
                 return true;
         } catch (ParseException e) {
             Snackbar.make(mRootView.findViewById(R.id.cab_add_coordinator), "The date entered is in the wrong format.", Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    private boolean checkWaitTimeCorrectAndDisplayError() {
+        try {
+            int hrs = Integer.parseInt(waitTimeHoursEditText.getText().toString());
+            int mins = Integer.parseInt(waitTimeMinsEditText.getText().toString());
+            if (hrs >= 6) {
+                Snackbar.make(mRootView.findViewById(R.id.cab_add_coordinator), "The wait time cannot be more than 6 hours.", Snackbar.LENGTH_LONG).show();
+                return false;
+            } else if (mins > 60) {
+                Snackbar.make(mRootView.findViewById(R.id.cab_add_coordinator), "The wait time minutes cannot be more than 60 minutes.", Snackbar.LENGTH_LONG).show();
+                return false;
+            } else {
+                return true;
+            }
+        } catch (NumberFormatException e) {
+            Snackbar.make(mRootView.findViewById(R.id.cab_add_coordinator), "The wait time hasn\'t been entered in the correct format.", Snackbar.LENGTH_LONG).show();
             return false;
         }
     }

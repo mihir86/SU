@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/no_laundry_order_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/no_laundry_order_text_view"

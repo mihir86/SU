@@ -30,6 +30,7 @@
     <string name="pm">PM</string>
     <string name="add_request">Add request</string>
     <string name="wait_time">Time you\'re willing to wait</string>
+    <string name="no_matches">No matches found</string>
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
     <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
