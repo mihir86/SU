@@ -7,7 +7,7 @@
     tools:context=".CabSharingFragment">
 
     <TextView
-        android:id="@+id/my_laundry_fragment_header"
+        android:id="@+id/airport_cab_sharing_fragment_header"
         style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,5 +19,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/your_cab_sharing_requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/your_requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/airport_cab_sharing_fragment_header" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cab_sharing_requests_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_cab_sharing_requests" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

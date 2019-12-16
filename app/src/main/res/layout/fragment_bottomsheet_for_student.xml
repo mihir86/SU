@@ -75,7 +75,6 @@
         android:layout_gravity="bottom"
         app:elevation="0dp"
         android:background="@color/backgroundSecondary"
-        app:itemBackground="@color/navigation_view_values"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_nav_divider"

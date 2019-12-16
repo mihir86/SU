@@ -4,16 +4,19 @@ import java.util.Date;
 
 public class CabShareRequest {
 
-    private String requesterID;
+    public static final int CAMPUS_TO_AIRPORT = 100;
+    public static final int AIRPORT_TO_CAMPUS = 101;
+
+    private String requesterID; //could be email or phone number
     private int cabType;
     private Date flightDateWithTime;
-    private Date flexibility;
+    private double waitTime;
 
-    public CabShareRequest(String requesterID, int cabType, Date flightDateWithTime, Date flexibility) {
+    public CabShareRequest(String requesterID, int cabType, Date flightDateWithTime, double waitTime) {
         this.requesterID = requesterID;
         this.cabType = cabType;
         this.flightDateWithTime = flightDateWithTime;
-        this.flexibility = flexibility;
+        this.waitTime = waitTime;
     }
 
     public String getRequesterID() {
@@ -28,7 +31,7 @@ public class CabShareRequest {
         return flightDateWithTime;
     }
 
-    public Date getFlexibility() {
-        return flexibility;
+    public double getWaitTime() {
+        return waitTime;
     }
 }

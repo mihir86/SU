@@ -19,6 +19,7 @@
     <string name="add_cab_sharing_request">Add airport cab sharing request</string>
     <string name="campus_to_airport">Campus to Airport</string>
     <string name="airport_to_campus">Airport to campus</string>
+    <string name="your_requests">Your requests</string>
     <string name="enter_date">Date of flight departure/arrival</string>
     <string name="enter_time">Time of flight departure/arrival</string>
     <string name="ddmmyy">dd/mm/yy</string>
