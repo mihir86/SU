@@ -130,7 +130,7 @@ public class SignInActivity extends AppCompatActivity {
                 editor.apply();
             }
             return true;
-        } else if (email.equalsIgnoreCase("aryan.arora180@gmail.com")) {
+        } else if (email.equalsIgnoreCase("aryan.arora180@gmail.com") || email.equalsIgnoreCase("mstrmihir2@gmail.com")) {
             editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
             editor.apply();
             return true;
