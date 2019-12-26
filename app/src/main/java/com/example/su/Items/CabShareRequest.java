@@ -7,23 +7,29 @@ public class CabShareRequest {
     public static final int CAMPUS_TO_AIRPORT = 100;
     public static final int AIRPORT_TO_CAMPUS = 101;
 
-    private String requesterID; //could be email or phone number
-    private int cabType;
+    private String documentID;
+    private long requesterPhone;
+    private long cabType;
     private Date flightDateWithTime;
     private double waitTime;
 
-    public CabShareRequest(String requesterID, int cabType, Date flightDateWithTime, double waitTime) {
-        this.requesterID = requesterID;
+    public CabShareRequest(String documentID, long requesterPhone, long cabType, Date flightDateWithTime, double waitTime) {
+        this.documentID = documentID;
+        this.requesterPhone = requesterPhone;
         this.cabType = cabType;
         this.flightDateWithTime = flightDateWithTime;
         this.waitTime = waitTime;
     }
 
-    public String getRequesterID() {
-        return requesterID;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public int getCabType() {
+    public long getrequesterPhone() {
+        return requesterPhone;
+    }
+
+    public long getCabType() {
         return cabType;
     }
 
@@ -34,4 +40,5 @@ public class CabShareRequest {
     public double getWaitTime() {
         return waitTime;
     }
+
 }

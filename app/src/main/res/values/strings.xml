@@ -10,6 +10,7 @@
     <string name="signout">Sign out</string>
     <string name="my_profile">My profile</string>
     <string name="no_laundry">You have no laundry orders</string>
+    <string name="no_cab_share_requests">You have no cab sharing requests</string>
     <string name="in_room">In room</string>
     <string name="not_in_room">Not in room</string>
     <string name="airport_cab_sharing">Airport cab sharing</string>
@@ -20,6 +21,7 @@
     <string name="campus_to_airport">Campus to Airport</string>
     <string name="airport_to_campus">Airport to campus</string>
     <string name="your_requests">Your requests</string>
+    <string name="matches">Matches:</string>
     <string name="enter_date">Date of flight departure/arrival</string>
     <string name="enter_time">Time of flight departure/arrival</string>
     <string name="ddmmyy">dd/mm/yy</string>
@@ -31,18 +33,48 @@
     <string name="pm">PM</string>
     <string name="add_request">Add request</string>
     <string name="wait_time">Time you\'re willing to wait</string>
+
     <string name="no_matches">No matches found</string>
+    <string name="one_match_found">One match found</string>
+    <string name="matches_found"> matches found</string>
+
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+
+    <string name="flight_leaves_on">Flight leaves on</string>
+    <string name="flight_arrives_on">Flight arrives on</string>
+    <string name="at">at</string>
+    <string name="will_leave">Willing to leave</string>
+    <string name="early">early</string>
+    <string name="late">late</string>
+
+    <string name="edit_cab_sharing_request">Edit airport cab sharing request</string>
+    <string name="edit_request">Edit request</string>
+    <string name="delete_request">Delete cab sharing request</string>
+    <string name="delete_request_msg">Are you sure you want to delete your cab sharing request?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="deleted_request">Successfully deleted your cab sharing request</string>
+    <string name="delete_error">There was an error deleting your cab sharing request</string>
+
+    <!--START: Firebase database fields-->
+    <string name="firebase_database_cab_sharing_collection">CabShareRequests</string>
+    <string name="firebase_database_cab_type_field">cabType</string>
+    <string name="firebase_database_flight_date_field">flightDateAndTime</string>
+    <string name="firebase_database_requester_phone_field">requesterPhone</string>
+    <string name="firebase_database_wait_time_field">waitTime</string>
+    <!--END: Firebase database values-->
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
     <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
 
-    <!--START: Shared pref values!-->
+    <!--START: Shared pref values-->
     <string name="student_or_prof_key">student_or_prof</string>
     <string name="student_value">student</string>
     <string name="prof_value">prof</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!--END: Shared pref values!-->
+    <!--END: Shared pref values-->
 
 </resources>

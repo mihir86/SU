@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backgroundSecondary"
     android:id="@+id/cab_add_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -187,7 +188,7 @@
             app:layout_constraintTop_toBottomOf="@id/wait_time_text_view">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/wait_time_hours_edit_text_input_layout"
+                android:id="@+id/edit_wait_time_hours_edit_text_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -195,7 +196,7 @@
                 app:helperText="@string/hrs">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/wait_hours_edit_text"
+                    android:id="@+id/edit_wait_hours_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -210,7 +211,7 @@
                 android:text="@string/colon" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/wait_time_mins_edit_text_input_layout"
+                android:id="@+id/edit_wait_time_mins_edit_text_input_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -218,7 +219,7 @@
                 app:helperText="@string/mins">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/wait_time_mins_hours_edit_text"
+                    android:id="@+id/edit_wait_time_mins_hours_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
