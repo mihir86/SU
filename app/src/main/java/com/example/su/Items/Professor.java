@@ -5,11 +5,11 @@ public class Professor {
 	private String Name;
 	private String Department;
 	private String ChamberNumber;
-	private boolean Availability;
+	private String Availability;
 
 	public Professor(){}
 
-	public Professor(String name, String department, String chamberNumber,boolean availability) {
+	public Professor(String name, String department, String chamberNumber,String availability) {
 		Name = name;
 		Department = department;
 		ChamberNumber = chamberNumber;
@@ -28,7 +28,7 @@ public class Professor {
 		return ChamberNumber;
 	}
 
-	public boolean isAvailability() {
+	public String isAvailability() {
 		return Availability;
 	}
 
@@ -44,7 +44,7 @@ public class Professor {
 		ChamberNumber = chamberNumber;
 	}
 
-	public void setAvailability(boolean availability) {
+	public void setAvailability(String availability) {
 		Availability = availability;
 	}
 }

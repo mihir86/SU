@@ -27,12 +27,6 @@ public class UpdateAvailabilityFragment extends Fragment {
 	CardView markAvailable;
 	CardView markUnavailable;
 
-	FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-	String emailid = user.getEmail();
-
-	DatabaseReference updateref = FirebaseDatabase.getInstance().getReference().child("Professors");
-
-	Query emailquery = updateref.orderByChild("Email").equalTo(emailid);
 
 
 	public UpdateAvailabilityFragment() {}
@@ -49,11 +43,19 @@ public class UpdateAvailabilityFragment extends Fragment {
 			@Override
 			public void onClick(View view) {
 				//TODO: Add code to update availability
+
+				FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+				String emailid = user.getEmail();
+
+				DatabaseReference updateref = FirebaseDatabase.getInstance().getReference().child("Professors");
+
+				Query emailquery = updateref.orderByChild("Email").equalTo(emailid);
+
 				emailquery.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						for(DataSnapshot child : dataSnapshot.getChildren()){
-							child.getRef().child("Availability").setValue("true");
+							child.getRef().child("Availability").setValue("Yes");
 						}
 						Snackbar.make(rootView, getString(R.string.availability_marked_available), BaseTransientBottomBar.LENGTH_LONG).show();
 					}
@@ -72,11 +74,19 @@ public class UpdateAvailabilityFragment extends Fragment {
 			@Override
 			public void onClick(View view) {
 				//TODO: Add code to update availability
+
+				FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+				String emailid = user.getEmail();
+
+				DatabaseReference updateref = FirebaseDatabase.getInstance().getReference().child("Professors");
+
+				Query emailquery = updateref.orderByChild("Email").equalTo(emailid);
+
 				emailquery.addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 						for(DataSnapshot child : dataSnapshot.getChildren()){
-							child.getRef().child("Availability").setValue("false");
+							child.getRef().child("Availability").setValue("No");
 						}
 						Snackbar.make(rootView, getString(R.string.availability_marked_unavailable), BaseTransientBottomBar.LENGTH_LONG).show();
 					}
