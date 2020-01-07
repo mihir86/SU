@@ -24,7 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity implements NavigationDrawerDialogFragment.NavigationDrawerSelected {
 
 	BottomAppBar navBar;
-    public static final String BOTTOM_ADD_CAB_SHARING_REUQEST_TAG = "bottom_add_cab_sharing_request";
+	public static final String BOTTOM_ADD_CAB_SHARING_REQUEST = "bottom_add_cab_sharing_request";
+
     FloatingActionButton fab;
 
 	NavigationDrawerDialogFragment bottomNavigationDrawerFragment;
@@ -77,9 +78,8 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerD
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Display bottom sheet here
-                AddCabSharingBottomDialogFragment cabSharingBottomDialogFragment = new AddCabSharingBottomDialogFragment();
-                cabSharingBottomDialogFragment.show(getSupportFragmentManager(), BOTTOM_ADD_CAB_SHARING_REUQEST_TAG);
+				AddOrEditCabSharingBottomDialogFragment cabSharingBottomDialogFragment = new AddOrEditCabSharingBottomDialogFragment(AddOrEditCabSharingBottomDialogFragment.ADD_CAB_SHARING_REQUEST_MODE, getApplicationContext());
+				cabSharingBottomDialogFragment.show(getSupportFragmentManager(), BOTTOM_ADD_CAB_SHARING_REQUEST);
             }
         });
 
