@@ -51,6 +51,8 @@ public class MyLaundryFragment extends Fragment {
 
 		db = FirebaseFirestore.getInstance();
 
+        laundryOrders = new ArrayList<>();
+
 		setLoadingView();
 		setupRecyclerData();
 
@@ -68,8 +70,6 @@ public class MyLaundryFragment extends Fragment {
 	}
 
 	private void setupRecyclerData() {
-
-		laundryOrders = new ArrayList<>();
 
 		db.collection(getString(R.string.firebase_database_laundry_collection))
 				.whereEqualTo(getString(R.string.firebase_database_laundry_room_no_field), "VM214L")//TODO: get user room number and pass that instead
@@ -89,8 +89,6 @@ public class MyLaundryFragment extends Fragment {
 								recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 								recyclerView.setAdapter(adapter);
 							}
-						} else {
-							//FAILED
 						}
 					}
 				});
