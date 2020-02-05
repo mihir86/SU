@@ -29,11 +29,19 @@ public class SignInActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     GoogleSignInClient mGoogleSignInClient;
 
+    private boolean signedInBefore;
+
     @Override
     protected void onStart() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account!=null) {
-            startActivity(new Intent(SignInActivity.this,MainActivity.class));
+        if (account != null) {
+            if (signedInBefore)
+                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+            else
+                startActivity(new Intent(SignInActivity.this, IntroActivity.class));
+
+        } else {
+            googleSignInButton.setVisibility(View.VISIBLE);
         }
         super.onStart();
     }
@@ -44,18 +52,21 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         mAuth = FirebaseAuth.getInstance();
 
+        SharedPreferences preferences = getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
+        signedInBefore = preferences.getBoolean(getString(R.string.signed_in_before_key), false);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.auth_id))
                 .requestEmail()
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         googleSignInButton = findViewById(R.id.google_sign_in_button);
         googleSignInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_DARK);
-        googleSignInButton.setOnClickListener(new View.OnClickListener(){
+        googleSignInButton.setVisibility(View.INVISIBLE);
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 signIn();
             }
         });
@@ -65,6 +76,7 @@ public class SignInActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -76,17 +88,16 @@ public class SignInActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
-                if (checkIfBITSEmailAndStoreDetails(account.getEmail()))
-                {
-                    startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                }
-                else
-                {
+                if (checkIfBITSEmailAndStoreDetails(account.getEmail())) {
+                    if (signedInBefore)
+                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                    else
+                        startActivity(new Intent(SignInActivity.this, IntroActivity.class));
+                } else {
                     mGoogleSignInClient.revokeAccess();
                     Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_use_bits_mail), Snackbar.LENGTH_LONG).show();
                 }
-            }
-            catch (ApiException e) {
+            } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 e.printStackTrace();
                 Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show();
@@ -101,8 +112,7 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful())
-                        {
+                        if (!task.isSuccessful()) {
                             Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_failed), Snackbar.LENGTH_SHORT).show();
                         }
                     }
@@ -110,16 +120,13 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private boolean checkIfBITSEmailAndStoreDetails(String email) {
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_pref_key), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         if (email.toLowerCase().endsWith("@hyderabad.bits-pilani.ac.in")) {
             if (email.toLowerCase().startsWith("f20")) {
-
                 editor.putString(getString(R.string.student_or_prof_key), getString(R.string.student_value));
                 editor.apply();
-            }
-            else
-            {
+            } else {
                 editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
                 editor.apply();
             }
@@ -128,8 +135,7 @@ public class SignInActivity extends AppCompatActivity {
             editor.putString(getString(R.string.student_or_prof_key), getString(R.string.prof_value));
             editor.apply();
             return true;
-        }
-        else
+        } else
             return false;
     }
 }

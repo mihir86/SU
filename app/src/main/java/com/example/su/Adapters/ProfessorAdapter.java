@@ -58,9 +58,9 @@ public class ProfessorAdapter extends RecyclerView.Adapter<ProfessorAdapter.MyVi
 		ImageView professorAvailable = holder.professorAvailable;
 
 		professorNameTextView.setText(professor.getName());
-		professorRoomTextView.setText(professor.getChamberNumber());
-		professorCourseTextView.setText(professor.getDepartment());
-		if(professor.isAvailability().equals("Yes"))
+		professorRoomTextView.setText(professor.getRoomNo());
+		professorCourseTextView.setText(professor.getDepartmentName());
+		if (professor.isAvailable())
 			professorAvailable.setImageResource(R.drawable.round_event_available_24);
 	}
 

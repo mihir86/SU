@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,11 +15,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.su.Adapters.ProfessorAdapter;
 import com.example.su.Items.Professor;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class ProfessorAvailabilityFragment extends Fragment {
 
 	private RecyclerView recyclerView;
 	private ProgressBar progressBar;
-	private DatabaseReference profref;
+    private FirebaseFirestore db;
 	ArrayList<Professor> professors;
 	ProfessorAdapter adapter;
 
@@ -43,6 +42,8 @@ public class ProfessorAvailabilityFragment extends Fragment {
 
 		recyclerView = rootView.findViewById(R.id.professor_availability_recycler_view);
 		progressBar = rootView.findViewById(R.id.progress_circular_professor_availability);
+
+        db = FirebaseFirestore.getInstance();
 
         setLoadingView();
         setupRecyclerData();
@@ -61,29 +62,30 @@ public class ProfessorAvailabilityFragment extends Fragment {
 	}
 
     private void setupRecyclerData() {
-        profref = FirebaseDatabase.getInstance().getReference().child("Professors");
-
         professors = new ArrayList<>();
-        profref.keepSynced(true);
 
-        profref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Professor professor = dataSnapshot1.getValue(Professor.class);
-                    professors.add(professor);
-                }
-                setRecyclerView();
-                adapter = new ProfessorAdapter(professors);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        db.collection(getString(R.string.firebase_database_professor_collection))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                professors.add(new Professor(
+                                        document.getString(getString(R.string.firebase_database_professor_email_key)),
+                                        document.getString(getString(R.string.firebase_database_professor_name_key)),
+                                        document.getLong(getString(R.string.firebase_database_professor_dept_key)),
+                                        document.getString(getString(R.string.firebase_database_professor_roomNo_key)),
+                                        document.getBoolean(getString(R.string.firebase_database_professor_available_key))
+                                ));
+                            }
+                            setRecyclerView();
+                            adapter = new ProfessorAdapter(professors);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
     }
 
 	private void setLoadingView()

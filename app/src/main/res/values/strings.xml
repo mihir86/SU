@@ -58,27 +58,54 @@
     <string name="delete_error">There was an error deleting your cab sharing request</string>
 
     <!--START: Firebase database fields-->
-    <string name="firebase_database_cab_sharing_collection">CabShareRequests</string>
-    <string name="firebase_database_cab_type_field">cabType</string>
-    <string name="firebase_database_flight_date_field">flightDateAndTime</string>
-    <string name="firebase_database_requester_phone_field">requesterPhone</string>
-    <string name="firebase_database_wait_time_field">waitTime</string>
-
     <string name="firebase_database_laundry_collection">LaundryOrders</string>
     <string name="firebase_database_laundry_given_date_field">givenDate</string>
     <string name="firebase_database_laundry_room_no_field">roomNo</string>
     <string name="firebase_database_laundry_price_field">price</string>
     <string name="firebase_database_laundry_complete_field">complete</string>
+
+    <string name="firebase_database_professor_collection">Professors</string>
+    <string name="firebase_database_professor_email_key">name</string>
+    <string name="firebase_database_professor_name_key">name</string>
+    <string name="firebase_database_professor_dept_key">department</string>
+    <string name="firebase_database_professor_roomNo_key">roomNo</string>
+    <string name="firebase_database_professor_available_key">complete</string>
+
+    <string name="firebase_database_cab_sharing_collection">CabShareRequests</string>
+    <string name="firebase_database_cab_type_field">cabType</string>
+    <string name="firebase_database_flight_date_field">flightDateAndTime</string>
+    <string name="firebase_database_requester_phone_field">requesterPhone</string>
+    <string name="firebase_database_wait_time_field">waitTime</string>
     <!--END: Firebase database values-->
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
-    <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
 
     <!--START: Shared pref values-->
+    <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
     <string name="student_or_prof_key">student_or_prof</string>
+    <string name="signed_in_before_key">signedInBefore</string>
     <string name="student_value">student</string>
     <string name="prof_value">prof</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--END: Shared pref values-->
+
+    <!--START: Introduction page values-->
+    <string name="header_hey_there">Hey there!</string>
+    <string name="content_intro">Welcome to BITS Pilani, Hyderabad Campus’ Student Union app. With this app, we aim to solve all of the problems faced by students on campus. With this initial release, we’re offering three features:</string>
+    <string name="header_my_laundry">My laundry</string>
+    <string name="content_my_laundry">Has the laundry place at CP ever told you to come collect your laundry after two days, but when you go to collect it, it’s not ready? Then you come the next day and it’s still not ready? Now, we’ll notify you when your laundry is ready for collection so that you don’t have to waste time going everyday and checking whether it’s ready.</string>
+    <string name="header_professor_availability">Professor availability</string>
+    <string name="content_professor_availability">Have you ever walked all the way to the I Block just to talk to a professor but then find out that he’s not in his room? Now, you can see every professor’s room number and whether they’re in their room or not. </string>
+    <string name="header_airport_cab_sharing">Airport cab sharing</string>
+    <string name="content_airport_cab_sharing">Have you ever scrolled through the long list of cab sharing requests on travel@bphc trying to find yourself a match? Now, all you need to do is enter your flight details and how much time you’re willing to wait and we’ll automatically find you matches!</string>
+    <string name="content_ending">Those are only the features we’re starting with. We have a lot more planned. If you have any ideas, feel free to write about them to suttbphc@gmail.com.</string>
+    <string name="content_credits">Made with love by Vineeth Kumar, Aryan Arora, and Mihir Bansal.</string>
+    <string name="next">NEXT</string>
+    <!--END: Introduction page values-->
+
+    <!--START: Hostel values-->
+    <string name="hostel_vm">VM</string>
+    <string name="hostel_vk">VK</string>
+
     <!--END: Shared pref values-->
 
 </resources>

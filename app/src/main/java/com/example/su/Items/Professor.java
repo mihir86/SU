@@ -2,49 +2,42 @@ package com.example.su.Items;
 
 public class Professor {
 
-	private String Name;
-	private String Department;
-	private String ChamberNumber;
-	private String Availability;
+	private String email;
+	private String name;
+	private long department;
+	private String roomNo;
+	private boolean available;
 
-	public Professor(){}
-
-	public Professor(String name, String department, String chamberNumber,String availability) {
-		Name = name;
-		Department = department;
-		ChamberNumber = chamberNumber;
-		Availability = availability;
+	public Professor(String email, String name, long department, String roomNo, boolean available) {
+		this.email = email;
+		this.name = name;
+		this.department = department;
+		this.roomNo = roomNo;
+		this.available = available;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
-	public String getDepartment() {
-		return Department;
+	public long getDepartment() {
+		return department;
 	}
 
-	public String getChamberNumber() {
-		return ChamberNumber;
+	public String getDepartmentName() {
+		//TODO: implement long-based system for departments and return name here
+		return "Computer Science";
 	}
 
-	public String isAvailability() {
-		return Availability;
+	public String getRoomNo() {
+		return roomNo;
 	}
 
-	public void setName(String name) {
-		Name = name;
+	public boolean isAvailable() {
+		return available;
 	}
 
-	public void setDepartment(String department) {
-		Department = department;
-	}
-
-	public void setChamberNumber(String chamberNumber) {
-		ChamberNumber = chamberNumber;
-	}
-
-	public void setAvailability(String availability) {
-		Availability = availability;
+	public String getEmail() {
+		return email;
 	}
 }
