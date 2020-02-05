@@ -36,13 +36,13 @@ import java.util.Map;
 
 public class AddOrEditCabSharingBottomDialogFragment extends BottomSheetDialogFragment {
 
-    View mRootView;
-    public static final int ADD_CAB_SHARING_REQUEST_MODE = 1001;
+    static final int ADD_CAB_SHARING_REQUEST_MODE = 1001;
+    static final int EDIT_CAB_SHARING_REQUEST_MODE = 1002;
     private ChipGroup cabTypeChipGroup;
     private TextInputLayout dateTextInputLayout;
     private TextInputEditText flightDateHoursEditText;
     private TextInputEditText flightDateMinsEditText;
-    public static final int EDIT_CAB_SHARING_REQUEST_MODE = 1002;
+    private View mRootView;
     private ChipGroup aopChipGroup;
     private TextInputEditText waitTimeHoursEditText;
     private TextInputEditText waitTimeMinsEditText;
@@ -166,6 +166,7 @@ public class AddOrEditCabSharingBottomDialogFragment extends BottomSheetDialogFr
                     }
                 }
             });
+
         } else {
             addOrEditRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -221,6 +222,18 @@ public class AddOrEditCabSharingBottomDialogFragment extends BottomSheetDialogFr
                         Log.w("AddEditCabSharingFragme", "Error adding document", e);
                     }
                 });
+
+        if (mMode == ADD_CAB_SHARING_REQUEST_MODE) {
+            //This restarts the fragment so that the data can refresh
+            CabSharingFragment fragment = (CabSharingFragment) getFragmentManager().findFragmentById(R.id.fragment_frame);
+
+            getFragmentManager().beginTransaction()
+                    .detach(fragment)
+                    .attach(fragment)
+                    .commit();
+        } else if (mMode == EDIT_CAB_SHARING_REQUEST_MODE) {
+            //TODO: Restart the CabSharingDetailsFragment here since data has been edited
+        }
     }
 
     private int getCabType() {
@@ -250,8 +263,9 @@ public class AddOrEditCabSharingBottomDialogFragment extends BottomSheetDialogFr
 
     private double getWaitTime() {
         long hrs = Long.parseLong(waitTimeHoursEditText.getText().toString());
-        long mins = Long.parseLong(waitTimeMinsEditText.getText().toString());
-        return hrs + (mins / 60d);
+        double mins = Long.parseLong(waitTimeMinsEditText.getText().toString());
+        mins = mins / 60;
+        return hrs + mins;
     }
 
     private boolean checkDataNotBlankAndDisplayError() {

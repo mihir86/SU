@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +16,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.su.Adapters.LaundryAdapter;
 import com.example.su.Items.LaundryOrder;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class MyLaundryFragment extends Fragment {
 	private SwipeRefreshLayout swipeContainer;
 
     LaundryAdapter adapter;
-    private DatabaseReference laundryRef;
+	private FirebaseFirestore db;
 
 	private ArrayList<LaundryOrder> laundryOrders;
 
@@ -49,6 +48,8 @@ public class MyLaundryFragment extends Fragment {
 		recyclerView = rootView.findViewById(R.id.my_laundry_recycler_view);
 		emptyView = rootView.findViewById(R.id.laundry_empty_view);
 		progressBar = rootView.findViewById(R.id.progress_circular_laundry_orders);
+
+		db = FirebaseFirestore.getInstance();
 
 		setLoadingView();
 		setupRecyclerData();
@@ -67,35 +68,32 @@ public class MyLaundryFragment extends Fragment {
 	}
 
 	private void setupRecyclerData() {
-		laundryRef = FirebaseDatabase.getInstance().getReference().child("Laundry orders"); //TODO: Get room number from email and append .child(RoomNo)) to this line.
 
 		laundryOrders = new ArrayList<>();
-		laundryRef.keepSynced(true);
 
-		//TODO: get the data of laundry orders and store it in laundryOrders
-		laundryRef.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-				for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-					LaundryOrder laundryOrder = dataSnapshot1.getValue(LaundryOrder.class);
-					laundryOrders.add(laundryOrder);
-				}
-
-				if (laundryOrders.isEmpty()) {
-					setEmptyView();
-				} else {
-					setRecyclerView();
-					adapter = new LaundryAdapter(laundryOrders);
-					recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-					recyclerView.setAdapter(adapter);
-				}
-			}
-
-			@Override
-			public void onCancelled(@NonNull DatabaseError databaseError) {
-				Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-			}
-		});
+		db.collection(getString(R.string.firebase_database_laundry_collection))
+				.whereEqualTo(getString(R.string.firebase_database_laundry_room_no_field), "VM214L")//TODO: get user room number and pass that instead
+				.get()
+				.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+					@Override
+					public void onComplete(@NonNull Task<QuerySnapshot> task) {
+						if (task.isSuccessful()) {
+							for (QueryDocumentSnapshot document : task.getResult()) {
+								laundryOrders.add(new LaundryOrder(document.getDate(getString(R.string.firebase_database_laundry_given_date_field)), document.getDouble(getString(R.string.firebase_database_laundry_price_field)), document.getBoolean(getString(R.string.firebase_database_laundry_complete_field))));
+							}
+							if (laundryOrders.isEmpty()) {
+								setEmptyView();
+							} else {
+								setRecyclerView();
+								adapter = new LaundryAdapter(laundryOrders);
+								recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+								recyclerView.setAdapter(adapter);
+							}
+						} else {
+							//FAILED
+						}
+					}
+				});
 	}
 
 	private void setRecyclerView()

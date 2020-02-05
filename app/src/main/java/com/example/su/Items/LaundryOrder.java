@@ -1,17 +1,16 @@
 package com.example.su.Items;
 
-import android.util.Log;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class LaundryOrder {
 
-	private String givenDate;
-	private int amount;
+	private Date givenDate;
+	private double amount;
 	private boolean done;
 
-	public LaundryOrder() {
-	}
-
-	public LaundryOrder(String givenDate, int amount, boolean done)
+	public LaundryOrder(Date givenDate, double amount, boolean done)
 	{
 		this.givenDate = givenDate;
 		this.amount = amount;
@@ -19,10 +18,11 @@ public class LaundryOrder {
 	}
 
 	public String getGivenDate() {
-		return givenDate;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yy", Locale.getDefault());
+		return simpleDateFormat.format(givenDate);
 	}
 
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
@@ -30,18 +30,4 @@ public class LaundryOrder {
 		return done;
 	}
 
-	public void setAmount(int amount) {
-		Log.e("Setter called for", "amount");
-		this.amount = amount;
-	}
-
-	public void setGivenDate(String givenDate) {
-		Log.e("Setter called for", "date");
-		this.givenDate = givenDate;
-	}
-
-	public void setDone(boolean done) {
-		Log.e("Setter called for", "isDone");
-		this.done = done;
-	}
 }

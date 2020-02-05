@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public class CabSharingFragment extends Fragment {
 
-    ArrayList<CabShareRequest> mUserCabRequests;
-    CabShareAdapter mCabAdapter;
+    private ArrayList<CabShareRequest> mUserCabRequests;
+    private CabShareAdapter mCabAdapter;
     private FirebaseFirestore db;
     private RecyclerView mCabSharingRequestsRecycler;
     private ConstraintLayout mEmptyView;
@@ -49,6 +49,13 @@ public class CabSharingFragment extends Fragment {
         mEmptyView = rootView.findViewById(R.id.cab_sharing_empty_view);
         mProgressBar = rootView.findViewById(R.id.progress_circular_cab_requests);
         mYourRequestsTextView = rootView.findViewById(R.id.your_cab_sharing_requests);
+
+        setRecyclerData();
+
+        return rootView;
+    }
+
+    private void setRecyclerData() {
 
         setLoadingView();
 
@@ -81,7 +88,6 @@ public class CabSharingFragment extends Fragment {
         mCabAdapter = new CabShareAdapter(mUserCabRequests, getContext());
         mCabSharingRequestsRecycler.setAdapter(mCabAdapter);
 
-        return rootView;
     }
 
     private void setRecyclerView() {

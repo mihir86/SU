@@ -63,6 +63,12 @@
     <string name="firebase_database_flight_date_field">flightDateAndTime</string>
     <string name="firebase_database_requester_phone_field">requesterPhone</string>
     <string name="firebase_database_wait_time_field">waitTime</string>
+
+    <string name="firebase_database_laundry_collection">LaundryOrders</string>
+    <string name="firebase_database_laundry_given_date_field">givenDate</string>
+    <string name="firebase_database_laundry_room_no_field">roomNo</string>
+    <string name="firebase_database_laundry_price_field">price</string>
+    <string name="firebase_database_laundry_complete_field">complete</string>
     <!--END: Firebase database values-->
 
     <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
@@ -72,8 +78,6 @@
     <string name="student_or_prof_key">student_or_prof</string>
     <string name="student_value">student</string>
     <string name="prof_value">prof</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--END: Shared pref values-->
 
