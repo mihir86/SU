@@ -3,6 +3,7 @@ package com.example.su;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             if (signedInBefore)
@@ -43,7 +45,6 @@ public class SignInActivity extends AppCompatActivity {
         } else {
             googleSignInButton.setVisibility(View.VISIBLE);
         }
-        super.onStart();
     }
 
     @Override
@@ -56,11 +57,12 @@ public class SignInActivity extends AppCompatActivity {
         signedInBefore = preferences.getBoolean(getString(R.string.signed_in_before_key), false);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.auth_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         googleSignInButton = findViewById(R.id.google_sign_in_button);
         googleSignInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_DARK);
         googleSignInButton.setVisibility(View.INVISIBLE);
@@ -100,8 +102,8 @@ public class SignInActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 e.printStackTrace();
+                Log.d("SignInDebug", "message - " + e.getStatusCode());
                 Snackbar.make(findViewById(R.id.sign_in_layout), getString(R.string.sign_in_failed), Snackbar.LENGTH_LONG).show();
-                // ...
             }
         }
     }

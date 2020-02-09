@@ -76,9 +76,13 @@
     <string name="firebase_database_flight_date_field">flightDateAndTime</string>
     <string name="firebase_database_requester_phone_field">requesterPhone</string>
     <string name="firebase_database_wait_time_field">waitTime</string>
-    <!--END: Firebase database values-->
 
-    <string name="auth_id">795157600095-rcudii07t5sa5g5iguf59e23rm7elg6q.apps.googleusercontent.com</string>
+    <string name="firebase_database_students_collection">Students</string>
+    <string name="firebase_database_student_email_field">email</string>
+    <string name="firebase_database_student_name_field">name</string>
+    <string name="firebase_database_student_room_no_field">roomNo</string>
+    <string name="firebase_database_student_phone_no_field">phoneNo</string>
+    <!--END: Firebase database values-->
 
     <!--START: Shared pref values-->
     <string name="shared_pref_key">com.example.su.PREFERENCE_FILE_KEY</string>
@@ -100,12 +104,28 @@
     <string name="content_ending">Those are only the features we’re starting with. We have a lot more planned. If you have any ideas, feel free to write about them to suttbphc@gmail.com.</string>
     <string name="content_credits">Made with love by Vineeth Kumar, Aryan Arora, and Mihir Bansal.</string>
     <string name="next">NEXT</string>
+    <string name="header_to_start">To start,</string>
+    <string name="content_to_start">We need your room and phone number:</string>
+    <string name="room_no">Room number</string>
+    <string name="side">Side</string>
+    <string name="phone_no">Phone number</string>
+    <string name="room_no_warning">Your room number will only be used to identify which laundry order is yours.</string>
+    <string name="phone_no_warning">Your phone number, along with your name, will be shared with other users when you use the cab sharing feature.\n\nBy continuing, you acknowledge sharing this information and that it is correct.</string>
+    <string name="submit">Continue</string>
     <!--END: Introduction page values-->
 
     <!--START: Hostel values-->
+    <string name="select_hostel">Hostel</string>
     <string name="hostel_vm">VM</string>
     <string name="hostel_vk">VK</string>
-
+    <string name="hostel_budh">B</string>
+    <string name="hostel_ram">R</string>
+    <string name="hostel_krishna">K</string>
+    <string name="hostel_gandhi">G</string>
+    <string name="hostel_gautam">GA</string>
+    <string name="hostel_shankar">S</string>
+    <string name="hostel_meera">M</string>
+    <string name="hostel_malviya">MA</string>
     <!--END: Shared pref values-->
 
 </resources>
