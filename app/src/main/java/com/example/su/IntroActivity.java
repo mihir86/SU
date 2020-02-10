@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -19,6 +20,7 @@ public class IntroActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     boolean userHasDetailsInDatabase;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,10 @@ public class IntroActivity extends AppCompatActivity {
         userHasDetailsInDatabase = false;
         db = FirebaseFirestore.getInstance();
 
-        final String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            email = user.getEmail();
+        }
 
         Button nextButton = findViewById(R.id.intro_next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {

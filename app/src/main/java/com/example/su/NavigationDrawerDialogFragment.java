@@ -29,6 +29,9 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 
 	public static final int NO_FAB = 1;
 	public static final int ADD_FAB = 2;
+	String name;
+	String email;
+	Uri photoUri;
 
 	NavigationDrawerSelected callback;
 	TextView nameTextView;
@@ -80,11 +83,13 @@ public class NavigationDrawerDialogFragment extends BottomSheetDialogFragment {
 		nameTextView = getView().findViewById(R.id.myProfileNameTextView);
 
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-		String name = user.getDisplayName();
-		String email = user.getEmail();
-		Uri photoUri = user.getPhotoUrl();
-		Log.i("Photo URL", photoUri.toString());
+		if(user!=null){
+			name = user.getDisplayName();
+			email = user.getEmail();
+			photoUri = user.getPhotoUrl();
+			Log.i("Photo URL", photoUri.toString());
 
+		}
 		nameTextView.setText(name);
 		emailTextView.setText(email);
 		Picasso.get().load(photoUri).resize(64, 64).into(accountPicImageView);

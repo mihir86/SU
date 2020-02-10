@@ -28,6 +28,8 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
     String[] HOSTELS;
     int hostelPostion;
     FirebaseFirestore db;
+    String name;
+    String email;
 
     AutoCompleteTextView hostelPicker;
     AutoCompleteTextView sidePicker;
@@ -42,8 +44,10 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String name = user.getDisplayName();
-        final String email = user.getEmail();
+        if(user != null){
+            name = user.getDisplayName();
+            email = user.getEmail();
+        }
 
         HOSTELS = new String[]{getString(R.string.hostel_vm), getString(R.string.hostel_vk), getString(R.string.hostel_budh), getString(R.string.hostel_ram), getString(R.string.hostel_krishna), getString(R.string.hostel_gandhi), getString(R.string.hostel_gautam), getString(R.string.hostel_shankar), getString(R.string.hostel_meera), getString(R.string.hostel_malviya)};
 
