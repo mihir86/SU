@@ -3,6 +3,7 @@ package com.example.su;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -30,9 +31,13 @@ public class IntroActivity extends AppCompatActivity {
         userHasDetailsInDatabase = false;
         db = FirebaseFirestore.getInstance();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
+        try {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //TODO: (bug fix) User returned is always null
             email = user.getEmail();
+        } catch (NullPointerException e) {
+            Log.d("IntroActivity", "FirebaseUser is null");
+            e.printStackTrace();
+            email = "null@gmail.com";
         }
 
         Button nextButton = findViewById(R.id.intro_next_button);
@@ -51,16 +56,14 @@ public class IntroActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     userHasDetailsInDatabase = !task.getResult().isEmpty();
-                                }
-                                if (userHasDetailsInDatabase) {
-                                    startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                                } else {
-                                    startActivity(new Intent(IntroActivity.this, EnterPersonalDetailsActivity.class));
+                                    if (userHasDetailsInDatabase) {
+                                        startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                                    } else {
+                                        startActivity(new Intent(IntroActivity.this, EnterPersonalDetailsActivity.class));
+                                    }
                                 }
                             }
                         });
-
-
             }
         });
 

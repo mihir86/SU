@@ -25,6 +25,7 @@ import java.util.Map;
 public class EnterPersonalDetailsActivity extends AppCompatActivity {
 
     final String[] SIDES = new String[]{"L", "R"};
+    int sidePosition;
     String[] HOSTELS;
     int hostelPostion;
     FirebaseFirestore db;
@@ -34,6 +35,8 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
     AutoCompleteTextView hostelPicker;
     AutoCompleteTextView sidePicker;
 
+
+    TextInputEditText roomNoEditText;
     TextInputEditText phoneEditText;
 
     @Override
@@ -43,11 +46,13 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
+        phoneEditText = findViewById(R.id.phoneEditText);
+        roomNoEditText = findViewById(R.id.roomNoEditText);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            name = user.getDisplayName();
-            email = user.getEmail();
-        }
+        name = user.getDisplayName();
+        email = user.getEmail();
+
 
         HOSTELS = new String[]{getString(R.string.hostel_vm), getString(R.string.hostel_vk), getString(R.string.hostel_budh), getString(R.string.hostel_ram), getString(R.string.hostel_krishna), getString(R.string.hostel_gandhi), getString(R.string.hostel_gautam), getString(R.string.hostel_shankar), getString(R.string.hostel_meera), getString(R.string.hostel_malviya)};
 
@@ -82,8 +87,6 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
             }
         });
 
-        phoneEditText = findViewById(R.id.phoneEditText);
-
         Button submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,9 +114,9 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
 
     private String getRoomNo() {
         if (hostelPostion == 0 || hostelPostion == 1 || hostelPostion == 6) {
-            return HOSTELS[hostelPostion] + phoneEditText.getText().toString();
+            return HOSTELS[hostelPostion] + roomNoEditText.getText().toString();
         } else {
-            return HOSTELS[hostelPostion] + phoneEditText.getText().toString() + SIDES[sidePicker.getListSelection()];
+            return HOSTELS[hostelPostion] + roomNoEditText.getText().toString() + SIDES[sidePosition];
         }
     }
 

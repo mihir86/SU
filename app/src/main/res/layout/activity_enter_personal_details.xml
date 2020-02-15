@@ -69,7 +69,7 @@
             android:hint="@string/room_no">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneEditText"
+                android:id="@+id/roomNoEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />

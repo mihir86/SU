@@ -51,7 +51,6 @@ public class CabShareRequestDetailsFragment extends Fragment {
     private TextView mMatchesTextView;
     private FirebaseFirestore db;
 
-
     public CabShareRequestDetailsFragment(CabShareRequest cabShareRequest) {
         mRequestDetails = cabShareRequest;
     }
