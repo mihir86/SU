@@ -8,4 +8,9 @@
     <color name="background">#121212</color>
     <color name="backgroundSecondary">#1F1F1F</color>
 
+
+    <!-- redesign values below here-->
+    <color name="background_sign_in">#131734</color>
+
+
 </resources>

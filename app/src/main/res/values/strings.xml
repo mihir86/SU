@@ -126,6 +126,7 @@
     <string name="hostel_shankar">S</string>
     <string name="hostel_meera">M</string>
     <string name="hostel_malviya">MA</string>
+    <string name="to_continue">To continue,</string>
     <!--END: Shared pref values-->
 
 </resources>

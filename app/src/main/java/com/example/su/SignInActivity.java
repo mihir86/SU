@@ -64,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         googleSignInButton = findViewById(R.id.google_sign_in_button);
-        googleSignInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_DARK);
+        googleSignInButton.setStyle(SignInButton.SIZE_WIDE, SignInButton.COLOR_LIGHT);
         googleSignInButton.setVisibility(View.INVISIBLE);
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
