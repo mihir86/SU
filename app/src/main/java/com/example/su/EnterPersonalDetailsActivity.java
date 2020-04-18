@@ -7,15 +7,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,7 +39,7 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
     TextInputEditText phoneEditText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_personal_details);
 
@@ -49,16 +48,14 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
         phoneEditText = findViewById(R.id.phoneEditText);
         roomNoEditText = findViewById(R.id.roomNoEditText);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        name = user.getDisplayName();
-        email = user.getEmail();
-
+        name = GoogleSignIn.getLastSignedInAccount(getApplicationContext()).getDisplayName();
+        email = GoogleSignIn.getLastSignedInAccount(getApplicationContext()).getEmail();
 
         HOSTELS = new String[]{getString(R.string.hostel_vm), getString(R.string.hostel_vk), getString(R.string.hostel_budh), getString(R.string.hostel_ram), getString(R.string.hostel_krishna), getString(R.string.hostel_gandhi), getString(R.string.hostel_gautam), getString(R.string.hostel_shankar), getString(R.string.hostel_meera), getString(R.string.hostel_malviya)};
 
         ArrayAdapter<String> hostelAdapter =
                 new ArrayAdapter<>(
-                        getApplicationContext(),
+                        this,
                         R.layout.dropdown_menu_popup_item,
                         HOSTELS);
         hostelPicker = findViewById(R.id.filled_exposed_dropdown);
@@ -67,7 +64,7 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
 
         ArrayAdapter<String> sideAdapter =
                 new ArrayAdapter<>(
-                        getApplicationContext(),
+                        this,
                         R.layout.dropdown_menu_popup_item,
                         SIDES);
         sidePicker = findViewById(R.id.filled_exposed_dropdown_2);
@@ -104,12 +101,11 @@ public class EnterPersonalDetailsActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 startActivity(new Intent(EnterPersonalDetailsActivity.this, MainActivity.class));
-                                Toast.makeText(getApplicationContext(), "Added!", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         });
             }
         });
-
     }
 
     private String getRoomNo() {

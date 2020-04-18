@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/background_sign_in" />
+    <solid android:color="@color/background_secondary_sign_in" />
 
     <corners android:bottomRightRadius="172dp" />
 

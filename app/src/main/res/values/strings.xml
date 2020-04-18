@@ -102,7 +102,7 @@
     <string name="header_airport_cab_sharing">Airport cab sharing</string>
     <string name="content_airport_cab_sharing">Have you ever scrolled through the long list of cab sharing requests on travel@bphc trying to find yourself a match? Now, all you need to do is enter your flight details and how much time you’re willing to wait and we’ll automatically find you matches!</string>
     <string name="content_ending">Those are only the features we’re starting with. We have a lot more planned. If you have any ideas, feel free to write about them to suttbphc@gmail.com.</string>
-    <string name="content_credits">Made with love by Vineeth Kumar, Aryan Arora, and Mihir Bansal.</string>
+    <string name="content_credits">Made by Vineeth Kumar and Aryan Arora.</string>
     <string name="next">NEXT</string>
     <string name="header_to_start">To start,</string>
     <string name="content_to_start">We need your room and phone number:</string>
@@ -127,9 +127,7 @@
     <string name="hostel_meera">M</string>
     <string name="hostel_malviya">MA</string>
     <string name="to_continue">To continue,</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
     <!--END: Shared pref values-->
 
 </resources>

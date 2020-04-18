@@ -10,7 +10,8 @@
 
 
     <!-- redesign values below here-->
-    <color name="background_sign_in">#131734</color>
+    <color name="background_secondary_sign_in">#131734</color>
+    <color name="background_sign_in">#000000</color>
 
 
 </resources>

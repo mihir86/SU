@@ -118,8 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationDrawerD
 						.addOnCompleteListener(this, new OnCompleteListener<Void>() {
 							@Override
 							public void onComplete(@NonNull Task<Void> task) {
-								Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                                Intent intent = new Intent(MainActivity.this, SignInWithGoogleActivity.class);
 								startActivity(intent);
+                                finish();
 							}
 						});
 
